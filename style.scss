@@ -1,0 +1,76 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+@mixin block {
+    width: 700px;
+    min-height: 50px;
+    background-color: bisque;
+    border: black solid 1px;
+    border-radius: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+@mixin flexBlockRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin flexBlockColumn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+body {
+    @include flexBlockColumn;
+}
+
+.header {
+    @include block;
+    @include flexBlockRow;
+
+}
+
+.shopping__form {
+    @include block;
+    @include flexBlockRow;
+}
+
+.shopping__list {
+    @include block;
+    @include flexBlockRow;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+
+    ul {
+        margin-left: 30px;
+        margin-top: 10px;
+        margin-bottom:  5px;
+        font-weight: 600;
+        font-size: 18px;
+
+        li {
+            margin-top: 5px;
+            font-weight: 400;
+            font-size: 14px;
+        }
+
+    }
+}
+
+.app__body {
+    @include flexBlockColumn;
+}
+
+
+
+
+
+
