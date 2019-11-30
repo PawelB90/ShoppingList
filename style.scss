@@ -6,9 +6,9 @@
 @mixin block {
     width: 700px;
     min-height: 50px;
-    background-color: bisque;
+    background-color: #f4f4f4;
     border: black solid 1px;
-    border-radius: 20px;
+    border-radius: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
 }
@@ -27,23 +27,55 @@
     align-items: center;
 }
 
+@mixin button {
+    text-decoration: none;
+    display: block;
+    width: 70px;
+    height: 25px;
+    line-height: 25px;
+    background-color: #669999;
+    color: white;
+    font-weight: 600;
+    text-align: center;
+    border-radius: 5px;
+}
+
 body {
     @include flexBlockColumn;
+}
+
+a {
+    @include button;
+}
+
+a:hover {
+    background-color: #66CC99;
 }
 
 .header {
     @include block;
     @include flexBlockRow;
 
+    .form {
+        @include flexBlockRow;
+    }
+
+}
+
+input {
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 .shopping__form {
     @include block;
+    width: 650px;
     @include flexBlockRow;
 }
 
 .shopping__list {
     @include block;
+    width: 650px;
     @include flexBlockRow;
     justify-content: flex-start;
     align-items: flex-start;
@@ -62,11 +94,16 @@ body {
             font-size: 14px;
         }
 
+        li:hover {
+            text-decoration: line-through;
+        }
+
     }
 }
 
 .app__body {
     @include flexBlockColumn;
+    @include block;
 }
 
 

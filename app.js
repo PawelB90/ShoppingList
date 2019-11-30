@@ -1,15 +1,19 @@
+document.addEventListener("DOMContentLoaded", loadProductList );
+
 const userList = [];
 const startBtn = document.querySelector('#user__logIn');
 const addBtn = document.querySelector('#addProduct');
-// const categoryList = {};
-const productList = [];
+let productList = [];
 
 startBtn.addEventListener('click', createUser);
 addBtn.addEventListener('click', createProductObject);
 
 
 function createUser () {
-    const name = document.querySelector('#userName').value;
+    let name = document.querySelector('#userName').value;
+    name = name.toLowerCase();
+    console.log(name[0]);
+    name = name.charAt(0).toUpperCase() + name.substring(1);
     userList.push(new User(name));
     console.log('User added');
     console.log(document.querySelector('#userName').value);
@@ -19,19 +23,61 @@ function createUser () {
 function createProductObject(){
     const product = document.querySelector('#product').value;
     const category = document.querySelector('#category').value;
+    const form = document.querySelector('.error');
+    if (!category || !product) {
+        form.innerText = "Error, no product or category !!!";
+        return;
+    }
     const a = productList.find((x) =>
     x.product === product && x.category === category
     );
-    console.log(a);
+    form.innerText = "";
     if(a) {
         console.log('update product')
         a.increaseCounter();
+        addProductsToLocalStorage()
         return;
     };
     productList.push(new ProductItem(product, category));
     console.log("add new product");
     productList[productList.length-1].addToMainList();
+    addProductsToLocalStorage();
 };
+
+function addProductsToLocalStorage(){
+    let product = productList.map((x) => x.product);
+    let category = productList.map((x) => x.category);
+    let counter = productList.map((x) => x.counter);
+    localStorage.setItem('product', product);
+    localStorage.setItem('category', category);
+    localStorage.setItem('counter', counter);
+};
+
+function getProductsFromLocalStorage(){
+
+    if (localStorage.getItem('product')){
+        productList.length = 0;
+        let product = localStorage.getItem('product');
+        console.log(product);
+        let listP = product.split(',');
+
+        let category = localStorage.getItem('category');
+        let listC = category.split(',');
+
+        let counter = localStorage.getItem('counter');
+        let listI = counter.split(',');
+
+        for (let i = 0; i < listP.length; i++){
+            productList.push(new ProductItem(listP[i], listC[i]));
+        };
+    };
+};
+
+function loadProductList(){
+    getProductsFromLocalStorage();
+    if(productList) productList.forEach(x => x.addToMainList());
+    else productList = [];
+}
 
 class ProductItem {
     constructor(product, category){
@@ -56,28 +102,27 @@ ProductItem.prototype.createProductHtml = function(){
         a.decreaseCounter();
     });
     return pr;
-}
+};
 
 ProductItem.prototype.createCategoryHtml = function(){
-    // categoryList[this.category] = [];
-    // categoryList[this.category].push(this.product);
     let cat = document.createElement('ul');
     cat.innerText = this.category;
     cat.classList.add(this.category);
     console.log(this.product);
     cat.appendChild(this.createProductHtml());
     return cat;
-}
+};
 
 ProductItem.prototype.addToCategoryHtml = function(){
-    // categoryList[this.category].push(this.product);
     let cHtml = document.querySelector(`.${this.category}`);
     cHtml.appendChild(this.createProductHtml());
-}
+};
 
 ProductItem.prototype.addToHtml = function(){
     console.log('add to main list');
-    if(document.querySelectorAll(`.${this.category}`).length !== 0) {
+    console.log(document.querySelectorAll(`.${this.category}`));
+    if(document.querySelectorAll(`ul+.${this.category}`).length) {
+        console.log(document.querySelectorAll(`.${this.category}`));
        this.addToCategoryHtml();
     } else {
         const mainListInHtml = document.querySelector('.shopping__list');
@@ -96,6 +141,7 @@ ProductItem.prototype.removeFromMainList = function(){
     const pr = document.querySelector(`.${this.category}>.${this.product}`);
     pr.remove();
 };
+
 ProductItem.prototype.addToMainList = function(){
     this.addToHtml();
 };
