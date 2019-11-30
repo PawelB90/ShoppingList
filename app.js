@@ -24,23 +24,29 @@ function createProductObject(){
     const product = document.querySelector('#product').value;
     const category = document.querySelector('#category').value;
     const form = document.querySelector('.error');
+
     if (!category || !product) {
         form.innerText = "Error, no product or category !!!";
         return;
-    }
+    };
+
     const a = productList.find((x) =>
     x.product === product && x.category === category
     );
+
     form.innerText = "";
+
     if(a) {
         console.log('update product')
         a.increaseCounter();
-        addProductsToLocalStorage()
-        return;
+        // addProductsToLocalStorage();
+        // return;
+    } else {
+        productList.push(new ProductItem(product, category));
+        console.log("add new product");
+        productList[productList.length-1].addToMainList();
     };
-    productList.push(new ProductItem(product, category));
-    console.log("add new product");
-    productList[productList.length-1].addToMainList();
+
     addProductsToLocalStorage();
 };
 
@@ -51,6 +57,7 @@ function addProductsToLocalStorage(){
     localStorage.setItem('product', product);
     localStorage.setItem('category', category);
     localStorage.setItem('counter', counter);
+    console.log('uaktualniono localStore')
 };
 
 function getProductsFromLocalStorage(){
@@ -65,10 +72,11 @@ function getProductsFromLocalStorage(){
         let listC = category.split(',');
 
         let counter = localStorage.getItem('counter');
-        let listI = counter.split(',');
+        let listI = counter.split(',').map(Number);
 
         for (let i = 0; i < listP.length; i++){
-            productList.push(new ProductItem(listP[i], listC[i]));
+            if(listI[i] !== 0)
+            productList.push(new ProductItem(listP[i], listC[i], listI[i]));
         };
     };
 };
@@ -80,10 +88,10 @@ function loadProductList(){
 }
 
 class ProductItem {
-    constructor(product, category){
+    constructor(product, category, counter = 1){
         this.product = product;
         this.category = category;
-        this.counter = 1;
+        this.counter = counter;
         console.log(`made product ${this.product} , ${this.category}`);
     }
 };
@@ -100,6 +108,7 @@ ProductItem.prototype.createProductHtml = function(){
         );
         console.log(a);
         a.decreaseCounter();
+        addProductsToLocalStorage();
     });
     return pr;
 };
@@ -114,15 +123,18 @@ ProductItem.prototype.createCategoryHtml = function(){
 };
 
 ProductItem.prototype.addToCategoryHtml = function(){
-    let cHtml = document.querySelector(`.${this.category}`);
+    let cHtml = document.querySelector(`.shopping__list>.${this.category}`);
+    // if(!this.counter)
     cHtml.appendChild(this.createProductHtml());
 };
 
 ProductItem.prototype.addToHtml = function(){
     console.log('add to main list');
-    console.log(document.querySelectorAll(`.${this.category}`));
-    if(document.querySelectorAll(`ul+.${this.category}`).length) {
-        console.log(document.querySelectorAll(`.${this.category}`));
+    console.log(document.querySelectorAll(`.shopping__list>.${this.category}`));
+    if (!this.counter) return;
+    if(document.querySelectorAll(`.shopping__list>.${this.category}`).length) {
+
+        // console.log(document.querySelectorAll(`.${this.category}`));
        this.addToCategoryHtml();
     } else {
         const mainListInHtml = document.querySelector('.shopping__list');
@@ -131,8 +143,9 @@ ProductItem.prototype.addToHtml = function(){
 };
 
 ProductItem.prototype.updateProductHtml = function(){
+    if (!this.counter) return;
     const pr = document.querySelector(`.${this.category}>.${this.product}`);
-    console.log(pr);
+    console.log(pr.parentElement);
     if(pr === null) this.addToMainList()
     else pr.innerHTML = this.product + ' x' + this.counter;
 };
@@ -160,6 +173,7 @@ ProductItem.prototype.decreaseCounter = function(){
     else {
         this.removeFromMainList();
         this.counter = 0;
+        this.updateProductHtml();
         return;
     }
 };
