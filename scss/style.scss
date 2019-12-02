@@ -7,7 +7,6 @@
     width: 700px;
     min-height: 50px;
     background-color: #f4f4f4;
-    border: black solid 1px;
     border-radius: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -38,6 +37,7 @@
     font-weight: 600;
     text-align: center;
     border-radius: 5px;
+    margin-left: 5px;
 }
 
 body {
@@ -55,6 +55,7 @@ a:hover {
 .header {
     @include block;
     @include flexBlockRow;
+    border: black solid 1px;
 
     .form {
         @include flexBlockRow;
@@ -104,6 +105,7 @@ input {
 .app__body {
     @include flexBlockColumn;
     @include block;
+    border: black solid 1px;
 }
 
 
