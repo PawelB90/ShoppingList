@@ -6,7 +6,8 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center; }
+  align-items: center;
+  color: white; }
 
 a {
   text-decoration: none;
@@ -21,13 +22,17 @@ a {
   border-radius: 5px;
   margin-left: 5px; }
 
+h1, h2 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-right: 20px; }
+
 a:hover {
   background-color: #66CC99; }
 
 .header {
   width: 700px;
   min-height: 50px;
-  background-color: #f4f4f4;
   border-radius: 10px;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -35,7 +40,9 @@ a:hover {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  border: black solid 1px; }
+  border: black solid 1px;
+  margin-top: 20px;
+  background-color: rgba(39, 38, 44, 0.3); }
   .header .form {
     display: flex;
     flex-direction: row;
@@ -49,7 +56,6 @@ input {
 .shopping__form {
   width: 700px;
   min-height: 50px;
-  background-color: #f4f4f4;
   border-radius: 10px;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -62,7 +68,6 @@ input {
 .shopping__list {
   width: 700px;
   min-height: 50px;
-  background-color: #f4f4f4;
   border-radius: 10px;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -94,10 +99,25 @@ input {
   align-items: center;
   width: 700px;
   min-height: 50px;
-  background-color: #f4f4f4;
   border-radius: 10px;
   margin-top: 10px;
   margin-bottom: 10px;
-  border: black solid 1px; }
+  border: black solid 1px;
+  background-color: rgba(39, 38, 44, 0.3); }
+
+.bgScene {
+  display: block;
+  position: absolute;
+  z-index: -10;
+  left: 0;
+  top: 0; }
+
+.textField {
+  background-color: rgba(39, 38, 44, 0.3);
+  border: black solid 1px;
+  color: white; }
+
+.hidden {
+  display: none; }
 
 /*# sourceMappingURL=style.css.map */

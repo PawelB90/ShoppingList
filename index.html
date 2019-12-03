@@ -10,28 +10,32 @@
 </head>
 
 <body>
+    <canvas class="bgScene"></canvas>
     <h1>Shopping List APP</h1>
     <header class="header">
         <form class="form">
-            <label for="name">Name</label>
-            <input type="text" name="name" id="userName">
+            <label for="name">Name:</label>
+            <input type="text" name="name" id="userName" class="textField">
             <a href="#" id="user__logIn">START</a>
         </form>
     </header>
-    <div class="app__body">
+    <div class="app__body hidden">
         <h2>Product list</h2>
         <div class='error'></div>
         <div class="shopping__form">
-            <label for="product">Product</label>
-            <input type="text" name="product" id="product">
-            <label for="category">Category</label>
-            <input type="text" name="category" id="category">
+            <label for="product">Product:</label>
+            <input type="text" name="product" id="product" class="textField">
+            <label for="category">Category:</label>
+            <input type="text" name="category" id="category" class="textField">
             <a href="#" id="addProduct">Add</a>
             <a href="#" id="clearProducts">Clear</a>
         </div>
         <div class="shopping__list">
         </div>
     </div>
+    <script src="lib/three.min.js"></script>
+    <script src="lib/postprocessing.min.js"></script>
+    <script src="lib/effects.js"></script>
     <script src="lib/user.js"></script>
     <script src="lib/productItem.js"></script>
     <script src="lib/app.js"></script>
